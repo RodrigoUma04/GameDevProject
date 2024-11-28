@@ -7,6 +7,9 @@ namespace ProjectGame
 {
     public class Game1 : Game
     {
+        public static int ScreenWidth = 1280;
+        public static int ScreenHeight = 720;
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private IScreen _menuScreen;
@@ -20,7 +23,10 @@ namespace ProjectGame
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            // actually apply the new dimensions to the GraphicsDeviceManager
+            _graphics.PreferredBackBufferWidth = ScreenWidth;
+            _graphics.PreferredBackBufferHeight = ScreenHeight;
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -29,8 +35,8 @@ namespace ProjectGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
             _menuScreen = new MenuScreen();
+            _menuScreen.LoadContent(Content); // not SOLID
         }
 
         protected override void Update(GameTime gameTime)
@@ -38,18 +44,17 @@ namespace ProjectGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
             float delta = (float) gameTime.ElapsedGameTime.TotalMilliseconds / 1000f; // use this for consistency in time related tasks between lower and higher performing devices
 
-            _menuScreen.Update(delta);
+            _menuScreen.Update(delta); // not SOLID
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-
-            // _menuScreen.Draw(_spriteBatch);
+            // for testing purposes
+            _menuScreen.Draw(_spriteBatch); // not SOLID
 
             base.Draw(gameTime);
         }
