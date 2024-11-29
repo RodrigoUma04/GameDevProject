@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ProjectGame.Screens
 {
-    class StateManager
+    public class GameStateManager
     {
         private IGameState _currentState;
 
-        public void ChangeState(IGameState newState, ContentManager content) // does this method need extra content loadersN?
+        public void ChangeState(IGameState newState, ContentManager content) // does this method need extra content loaders?
         {
             _currentState = newState;
             _currentState.LoadContent(content);

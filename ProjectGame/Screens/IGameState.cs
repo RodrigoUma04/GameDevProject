@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGame.Screens
 {
-    interface IGameState
+    public interface IGameState
     {
         void LoadContent(ContentManager content);
         void Update(float delta);
