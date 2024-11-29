@@ -10,8 +10,8 @@ namespace ProjectGame
     public class Game1 : Game
     {
         #region Screens config
-        public static int ScreenWidth = 1280;
-        public static int ScreenHeight = 720;
+        public static int ScreenWidth = 1000;
+        public static int ScreenHeight = 500;
 
         public static GameStateManager StateManager;
         #endregion
@@ -33,14 +33,14 @@ namespace ProjectGame
             _graphics.PreferredBackBufferHeight = ScreenHeight;
             _graphics.ApplyChanges();
 
+            StateManager = new GameStateManager();
+
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            StateManager = new GameStateManager();
             StateManager.ChangeState(new MenuScreen(),Content);
         }
 

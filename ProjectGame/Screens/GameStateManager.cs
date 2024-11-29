@@ -12,7 +12,7 @@ namespace ProjectGame.Screens
     {
         private IGameState _currentState;
 
-        public void ChangeState(IGameState newState, ContentManager content) // does this method need extra content loaders?
+        public void ChangeState(IGameState newState, ContentManager content)
         {
             _currentState = newState;
             _currentState.LoadContent(content);
@@ -20,12 +20,12 @@ namespace ProjectGame.Screens
 
         public void Update(float delta)
         {
-            _currentState.Update(delta); // null check needed?
+            _currentState?.Update(delta);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            _currentState.Draw(spriteBatch); // null check needed?
+            _currentState?.Draw(spriteBatch);
         }
     }
 }
