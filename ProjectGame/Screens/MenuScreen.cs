@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProjectGame.Screens
 {
-    class MenuScreen : IScreen
+    class MenuScreen : IGameState
     {
         private Texture2D _backgroundImage;
         public void LoadContent(ContentManager content)
@@ -36,6 +36,7 @@ namespace ProjectGame.Screens
             spriteBatch.End();
         }
 
+        // yet to implement
         public void Update(float delta)
         {
             
