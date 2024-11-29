@@ -18,6 +18,7 @@ namespace ProjectGame.Screens
             _currentState.LoadContent(content);
         }
 
+        // null checks to avoid weird bugs
         public void Update(float delta)
         {
             _currentState?.Update(delta);

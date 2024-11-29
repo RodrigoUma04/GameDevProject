@@ -12,6 +12,7 @@ namespace ProjectGame.Screens
     class MenuScreen : IGameState
     {
         private Texture2D _backgroundImage;
+
         public void LoadContent(ContentManager content)
         {
             _backgroundImage = content.Load<Texture2D>("Background/background");
@@ -19,20 +20,22 @@ namespace ProjectGame.Screens
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var origin = new Vector2(_backgroundImage.Width/2f, _backgroundImage.Height/2f); // sets the origin point of the picture to the middle
+            Vector2 screenCenter = new Vector2(Game1.ScreenWidth / 2f, Game1.ScreenHeight / 2f); // sets center of the screen
+            Vector2 imageOrigin = new Vector2(_backgroundImage.Width/2f, _backgroundImage.Height/2f); // sets the origin point of the picture to the middle
 
             spriteBatch.Begin();
             spriteBatch.Draw(
                 _backgroundImage, 
-                new Vector2(Game1.ScreenWidth/2f, Game1.ScreenHeight/2f),
+                screenCenter,
                 null,
                 Color.White,
                 0f,
-                origin,
+                imageOrigin,
                 1f,
                 SpriteEffects.None,
                 0f)
                 ;
+
             spriteBatch.End();
         }
 
