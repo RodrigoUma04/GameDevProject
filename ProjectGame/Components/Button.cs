@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace ProjectGame.Components
 {
@@ -15,6 +16,9 @@ namespace ProjectGame.Components
         private int _position;
         private Vector2 _buttonCenter;
         private Vector2 _screenCenter;
+
+        private MouseState _previousMouseState;
+        private bool _isHovered;
 
         public Button(List<Texture2D> textures, int position, Vector2 screenCenter)
         {
@@ -44,7 +48,26 @@ namespace ProjectGame.Components
 
         public void Update(float delta)
         {
+            // make the detection for hovering and then for a click
+            // click then need the onclick method, which is abstract and need to be implemented for every specific button
 
+            // get current mouse state and position
+            MouseState currentMouseState = Mouse.GetState();
+            Point mousePosition = currentMouseState.Position;
+
+            Rectangle buttonBounds = new Rectangle(
+                (int)(_screenCenter.X - _buttonCenter.X),
+                (int)(_screenCenter.Y - _buttonCenter.Y),
+                _textures[0].Width,
+                _textures[0].Height
+                );
+
+            _isHovered = buttonBounds.Contains(mousePosition);
+
+            if(_isHovered && currentMouseState.LeftButton == ButtonState.Released && _previousMouseState.LeftButton == ButtonState.Pressed) // check if pointer is hovering the button and if a click has happened
+            {
+                OnClick();
+            }
         }
 
         public abstract void OnClick();

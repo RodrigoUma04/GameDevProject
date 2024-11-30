@@ -65,7 +65,10 @@ namespace ProjectGame.Screens
         // yet to implement
         public void Update(float delta)
         {
-            
+            foreach (var button in _buttons)
+            {
+                button?.Update(delta);
+            }
         }
     }
 }

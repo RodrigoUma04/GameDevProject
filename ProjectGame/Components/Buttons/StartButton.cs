@@ -5,6 +5,10 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using System.Text;
 using System.Threading.Tasks;
+using ProjectGame.Core;
+using ProjectGame.Screens;
+using Microsoft.Xna.Framework.Content;
+using ProjectGame;
 
 namespace ProjectGame.Components.Buttons
 {
@@ -15,7 +19,7 @@ namespace ProjectGame.Components.Buttons
         // here I can implement a OnClick event that redirect to the first (or current level --> another state)
         public override void OnClick()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
