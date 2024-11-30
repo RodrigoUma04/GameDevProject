@@ -1,16 +1,14 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using ProjectGame.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectGame.Screens
+namespace ProjectGame.Core
 {
-    // not yet implemented (for testing purposes)
-    class LevelOneScreen : IGameState
+    public class ExitState : IGameState
     {
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -23,5 +21,7 @@ namespace ProjectGame.Screens
         public void Update(float delta)
         {
         }
+
+        // this could probably be done in a more logical easier way, but this is temporary, since I have other priorities
     }
 }

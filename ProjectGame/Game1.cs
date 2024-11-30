@@ -47,7 +47,7 @@ namespace ProjectGame
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || StateManager.CurrentState is ExitState)
                 Exit();
 
             float delta = (float) gameTime.ElapsedGameTime.TotalMilliseconds / 1000f; // use this for consistency in time related tasks between lower and higher performing devices
@@ -59,6 +59,7 @@ namespace ProjectGame
 
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.Black); // clears the screen when changing states
             StateManager.Draw(_spriteBatch);
             base.Draw(gameTime);
         }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace ProjectGame.Components
 {
@@ -20,12 +21,16 @@ namespace ProjectGame.Components
         private MouseState _previousMouseState;
         private bool _isHovered;
 
-        public Button(List<Texture2D> textures, int position, Vector2 screenCenter)
+        public ContentManager content { get; set; }
+
+        public Button(List<Texture2D> textures, int position, Vector2 screenCenter, ContentManager content)
         {
             _textures = textures;
             _position = position;
             _screenCenter = screenCenter;
             _buttonCenter = new Vector2(textures[0].Width / 2f, textures[0].Height / 2f);
+            this.content = content;
+
         }
 
         public void Draw(SpriteBatch spriteBatch) // use virtual if more in depth drawing per button is needed
@@ -49,7 +54,6 @@ namespace ProjectGame.Components
         public void Update(float delta)
         {
             // make the detection for hovering and then for a click
-            // click then need the onclick method, which is abstract and need to be implemented for every specific button
 
             // get current mouse state and position
             MouseState currentMouseState = Mouse.GetState();
@@ -57,10 +61,11 @@ namespace ProjectGame.Components
 
             Rectangle buttonBounds = new Rectangle(
                 (int)(_screenCenter.X - _buttonCenter.X),
-                (int)(_screenCenter.Y - _buttonCenter.Y),
+                (int)(_screenCenter.Y + _position - _buttonCenter.Y), // forgot to add the Y position which also serves as space between the buttons, this caused a bug, because rectangles would be drawn over each other
                 _textures[0].Width,
                 _textures[0].Height
                 );
+
 
             _isHovered = buttonBounds.Contains(mousePosition);
 
@@ -68,6 +73,10 @@ namespace ProjectGame.Components
             {
                 OnClick();
             }
+
+            _previousMouseState = currentMouseState;
+
+            // add animation yet
         }
 
         public abstract void OnClick();

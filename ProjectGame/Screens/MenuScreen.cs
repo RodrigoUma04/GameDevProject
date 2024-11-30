@@ -30,10 +30,10 @@ namespace ProjectGame.Screens
         {
             _backgroundImage = content.Load<Texture2D>("Background/background");
 
-            // here I have to generate a list of all of the buttons with the factory
             _buttonFactory = new ButtonFactory(content);
 
             _buttons.Add(_buttonFactory.CreateButton(ButtonType.StartButton, 0, _screenCenter));
+            _buttons.Add(_buttonFactory.CreateButton(ButtonType.ExitButton, 80, _screenCenter));
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -41,7 +41,6 @@ namespace ProjectGame.Screens
             Vector2 imageOrigin = new Vector2(_backgroundImage.Width/2f, _backgroundImage.Height/2f); // sets the origin point of the picture to the middle
             spriteBatch.Begin();
 
-            // could make a factory for this, but overengineering?
             spriteBatch.Draw(
                 _backgroundImage, 
                 _screenCenter,
@@ -62,7 +61,6 @@ namespace ProjectGame.Screens
             spriteBatch.End();
         }
 
-        // yet to implement
         public void Update(float delta)
         {
             foreach (var button in _buttons)

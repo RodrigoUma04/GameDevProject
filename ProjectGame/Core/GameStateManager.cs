@@ -10,23 +10,23 @@ namespace ProjectGame.Core
 {
     public class GameStateManager
     {
-        private IGameState _currentState;
+        public IGameState CurrentState { get; private set; }
 
         public void ChangeState(IGameState newState, ContentManager content)
         {
-            _currentState = newState;
-            _currentState.LoadContent(content);
+            CurrentState = newState;
+            CurrentState.LoadContent(content);
         }
 
         // null checks to avoid weird bugs
         public void Update(float delta)
         {
-            _currentState?.Update(delta);
+            CurrentState?.Update(delta);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            _currentState?.Draw(spriteBatch);
+            CurrentState?.Draw(spriteBatch);
         }
     }
 }
