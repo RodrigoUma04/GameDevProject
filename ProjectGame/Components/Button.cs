@@ -12,37 +12,41 @@ namespace ProjectGame.Components
     {
         // all the properties I think I need for a button.
         private List<Texture2D> _textures; // I need this to be loaded in the specific button class
-        private Vector2 _position;
+        private int _position;
         private Vector2 _buttonCenter;
         private Vector2 _screenCenter;
 
-        private float _scale;
-
-        public Button(List<Texture2D> textures, Vector2 position, float scale, Vector2 screenCenter)
+        public Button(List<Texture2D> textures, int position, Vector2 screenCenter)
         {
             _textures = textures;
             _position = position;
-            _scale = scale;
             _screenCenter = screenCenter;
             _buttonCenter = new Vector2(textures[0].Width / 2f, textures[0].Height / 2f);
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch) // why should this be virtual?
+        public void Draw(SpriteBatch spriteBatch) // use virtual if more in depth drawing per button is needed
         {
             if(_textures != null) // to avoid weird bugs
             {
                 spriteBatch.Draw(
                     _textures[0],
-                    _screenCenter,
+                    new Vector2(_screenCenter.X, _screenCenter.Y + _position), // this sets the origin point to the center of the screen and allows to set a button higher or lower with 'position' // temp?
                     null,
                     Color.White,
                     0f,
                     _buttonCenter,
-                    _scale,
+                    1f,
                     SpriteEffects.None,
                     0f
                     );
             }
         }
+
+        public void Update(float delta)
+        {
+
+        }
+
+        public abstract void OnClick();
     }
 }

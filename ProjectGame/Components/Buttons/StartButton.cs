@@ -10,6 +10,12 @@ namespace ProjectGame.Components.Buttons
 {
     public class StartButton : Button
     {
-        public StartButton(List<Texture2D> textures, Vector2 position, float scale, Vector2 screenCenter): base(textures, position, scale, screenCenter) { }
+        public StartButton(List<Texture2D> textures, int position, Vector2 screenCenter): base(textures, position, screenCenter) { }
+
+        // here I can implement a OnClick event that redirect to the first (or current level --> another state)
+        public override void OnClick()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

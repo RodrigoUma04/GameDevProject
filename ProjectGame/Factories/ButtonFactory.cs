@@ -20,8 +20,9 @@ namespace ProjectGame.Factories
             _content = content;
         }
 
-        public Button CreateButton(ButtonType type, Vector2 position, float scale, Vector2 screenCenter)
+        public Button CreateButton(ButtonType type, int YPosition, Vector2 screenCenter)
         {
+            // create button based on type and provide them with needed assets
             switch (type)
             {
                 case ButtonType.StartButton:
@@ -31,7 +32,8 @@ namespace ProjectGame.Factories
                     {
                         textures.Add(_content.Load<Texture2D>($"Buttons/Start/Text_Start_Button_0{i}"));
                     }
-                    return new StartButton(textures, position, scale, screenCenter);
+                    return new StartButton(textures, YPosition, screenCenter);
+                    // add more buttons here
                 default:
                     return null;
             }
