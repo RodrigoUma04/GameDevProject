@@ -4,18 +4,13 @@ using Microsoft.Xna.Framework.Graphics;
 using ProjectGame.Components;
 using ProjectGame.Core;
 using ProjectGame.Factories;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectGame.Screens
 {
     class MenuScreen : IGameState
     {
         private Texture2D _backgroundImage;
-        // this would probably be better in a constructor
         private ButtonFactory _buttonFactory;
         private List<Button> _buttons;
         private Vector2 _screenCenter;

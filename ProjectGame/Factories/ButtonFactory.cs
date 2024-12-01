@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ProjectGame.Components;
@@ -27,23 +23,23 @@ namespace ProjectGame.Factories
             switch (type)
             {
                 case ButtonType.StartButton:
-                    for (int i = 1; i <= 3; i++)
-                    {
-                        textures.Add(_content.Load<Texture2D>($"Buttons/Start/Text_Start_Button_0{i}"));
-                    }
-                    Button start = new StartButton(textures, YPosition, screenCenter, _content);
-                    return start;
+                    generatePaths("Buttons/Start/Text_Start_Button_0", textures);
+                    return new StartButton(textures, YPosition, screenCenter, _content);
 
                 case ButtonType.ExitButton:
-                    for (int i = 1; i <= 3; i++)
-                    {
-                        textures.Add(_content.Load<Texture2D>($"Buttons/Exit/Text_Exit_Button_0{i}"));
-                    }
-                    Button exit = new ExitButton(textures, YPosition, screenCenter, _content);
-                    return exit;
+                    generatePaths("Buttons/Exit/Text_Exit_Button_0", textures);
+                    return new ExitButton(textures, YPosition, screenCenter, _content);
                     // add more buttons here
                 default:
                     return null;
+            }
+        }
+
+        public void generatePaths(string path, List<Texture2D> textures)
+        {
+            for (int i = 1; i <= 3; i++)
+            {
+                textures.Add(_content.Load<Texture2D>(path + i));
             }
         }
     }
