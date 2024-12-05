@@ -9,8 +9,8 @@ namespace ProjectGame
     public class Game1 : Game
     {
         #region Screens config
-        public static int ScreenWidth = 1000;
-        public static int ScreenHeight = 500;
+        public static int ScreenWidth = 1024;
+        public static int ScreenHeight = 512;
 
         public static GameStateManager StateManager;
         #endregion
