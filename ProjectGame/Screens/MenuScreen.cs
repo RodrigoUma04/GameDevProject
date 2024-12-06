@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using ProjectGame.Components;
 using ProjectGame.Core;
 using ProjectGame.Factories;
@@ -14,6 +15,7 @@ namespace ProjectGame.Screens
         private ButtonFactory _buttonFactory;
         private List<Button> _buttons;
         private Vector2 _screenCenter;
+        private Song _backgroundMusic;
 
         public MenuScreen()
         {
@@ -24,6 +26,10 @@ namespace ProjectGame.Screens
         public void LoadContent(ContentManager content)
         {
             _backgroundImage = content.Load<Texture2D>("Background/background");
+            _backgroundMusic = content.Load<Song>("Music/Cave of Rønen (8-bit Video Game Music)");
+
+            MediaPlayer.Play(_backgroundMusic);
+            MediaPlayer.IsRepeating = true;
 
             _buttonFactory = new ButtonFactory(content);
 
