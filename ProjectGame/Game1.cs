@@ -32,7 +32,7 @@ namespace ProjectGame
             _graphics.PreferredBackBufferHeight = ScreenHeight;
             _graphics.ApplyChanges();
 
-            StateManager = new GameStateManager();
+            StateManager = new GameStateManager(GraphicsDevice);
 
             base.Initialize();
         }

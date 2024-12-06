@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using ProjectGame.Screens;
 using Microsoft.Xna.Framework.Content;
+using ProjectGame.Core;
 
 namespace ProjectGame.Components.Buttons
 {
@@ -12,7 +13,7 @@ namespace ProjectGame.Components.Buttons
 
         public override void OnClick()
         {
-            Game1.StateManager.ChangeState(new LevelOneScreen(), content);
+            Game1.StateManager.ChangeState(new LevelOneScreen(Game1.StateManager.GraphicsDevice), content);
         }
     }
 }

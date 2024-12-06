@@ -1,11 +1,19 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ProjectGame.Core
 {
     public class GameStateManager
     {
         public IGameState CurrentState { get; private set; }
+
+        public GraphicsDevice GraphicsDevice { get; set; }
+
+        public GameStateManager(GraphicsDevice graphicsDevice)
+        {
+            this.GraphicsDevice = graphicsDevice;
+        }
 
         public void ChangeState(IGameState newState, ContentManager content)
         {
