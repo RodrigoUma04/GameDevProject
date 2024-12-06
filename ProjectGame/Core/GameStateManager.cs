@@ -8,7 +8,7 @@ namespace ProjectGame.Core
     {
         public IGameState CurrentState { get; private set; }
 
-        public GraphicsDevice GraphicsDevice { get; set; }
+        public GraphicsDevice GraphicsDevice { get; set; } // set as property, because only needed in certain states
 
         public GameStateManager(GraphicsDevice graphicsDevice)
         {

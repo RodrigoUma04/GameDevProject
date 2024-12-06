@@ -12,22 +12,17 @@ namespace ProjectGame.Screens
     {
         private TiledMap _tiledMap;
         private TiledMapRenderer _mapRenderer;
-        private GraphicsDevice _graphicsDevice;
         private Song _backgroundMusic;
-        
-        public LevelOneScreen(GraphicsDevice graphicsDevice)
-        {
-            this._graphicsDevice = graphicsDevice;
-        }
 
         public void LoadContent(ContentManager content)
         {
             _tiledMap = content.Load<TiledMap>("Levels/Level 1/Level 1");
-            _mapRenderer = new TiledMapRenderer(_graphicsDevice, _tiledMap);
             _backgroundMusic = content.Load<Song>("Music/Flood Escape 2 - Ignis Peaks 8-Bit Remix");
 
             MediaPlayer.Play(_backgroundMusic);
             MediaPlayer.IsRepeating = true;
+
+            _mapRenderer = new TiledMapRenderer(Game1.StateManager.GraphicsDevice, _tiledMap);
         }
         public void Draw(SpriteBatch spriteBatch)
         {

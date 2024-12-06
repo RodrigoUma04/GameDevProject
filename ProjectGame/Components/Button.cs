@@ -8,8 +8,7 @@ namespace ProjectGame.Components
 {
     public abstract class Button
     {
-        // all the properties I think I need for a button.
-        private List<Texture2D> _textures; // I need this to be loaded in the specific button class
+        private List<Texture2D> _textures;
         private int _position;
         private Vector2 _buttonCenter;
         private Vector2 _screenCenter;
@@ -17,7 +16,7 @@ namespace ProjectGame.Components
         private MouseState _previousMouseState;
         private bool _isHovered;
 
-        public ContentManager content { get; set; }
+        protected ContentManager _content;
 
         public Button(List<Texture2D> textures, int position, Vector2 screenCenter, ContentManager content)
         {
@@ -25,13 +24,13 @@ namespace ProjectGame.Components
             _position = position;
             _screenCenter = screenCenter;
             _buttonCenter = new Vector2(textures[0].Width / 2f, textures[0].Height / 2f);
-            this.content = content;
+            _content = content;
 
         }
 
-        public void Draw(SpriteBatch spriteBatch) // use virtual if more in depth drawing per button is needed
+        public void Draw(SpriteBatch spriteBatch)
         {
-            if(_textures != null) // to avoid weird bugs
+            if(_textures != null)
             {
                 spriteBatch.Draw(
                     _textures[0],
@@ -49,8 +48,6 @@ namespace ProjectGame.Components
 
         public void Update(float delta)
         {
-            // make the detection for hovering and then for a click
-
             // get current mouse state and position
             MouseState currentMouseState = Mouse.GetState();
             Point mousePosition = currentMouseState.Position;
@@ -65,7 +62,8 @@ namespace ProjectGame.Components
 
             _isHovered = buttonBounds.Contains(mousePosition);
 
-            if(_isHovered && currentMouseState.LeftButton == ButtonState.Released && _previousMouseState.LeftButton == ButtonState.Pressed) // check if pointer is hovering the button and if a click has happened
+            // check if pointer is hovering the button and if a click has happened
+            if (_isHovered && currentMouseState.LeftButton == ButtonState.Released && _previousMouseState.LeftButton == ButtonState.Pressed)
             {
                 OnClick();
             }

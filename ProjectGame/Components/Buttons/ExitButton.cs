@@ -12,7 +12,7 @@ namespace ProjectGame.Components.Buttons
 
         public override void OnClick()
         {
-            Game1.StateManager.ChangeState(new ExitState(), content);
+            Game1.StateManager.ChangeState(new ExitState(), _content);
         }
     }
 }

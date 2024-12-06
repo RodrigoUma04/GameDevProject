@@ -13,7 +13,7 @@ namespace ProjectGame.Components.Buttons
 
         public override void OnClick()
         {
-            Game1.StateManager.ChangeState(new LevelOneScreen(Game1.StateManager.GraphicsDevice), content);
+            Game1.StateManager.ChangeState(new LevelOneScreen(), _content);
         }
     }
 }
