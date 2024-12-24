@@ -16,7 +16,7 @@ namespace ProjectGame.Screens
 
         public void LoadContent(ContentManager content)
         {
-            _tiledMap = content.Load<TiledMap>("Levels/Level 1/Level 1");
+            _tiledMap = content.Load<TiledMap>("Tiled/Levels/Level-1");
             _backgroundMusic = content.Load<Song>("Music/Flood Escape 2 - Ignis Peaks 8-Bit Remix");
 
             MediaPlayer.Play(_backgroundMusic);
