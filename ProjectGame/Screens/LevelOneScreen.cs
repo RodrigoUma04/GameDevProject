@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using MonoGame.Extended.Collisions.Layers;
 using MonoGame.Extended;
+using ProjectGame.Entities;
 
 namespace ProjectGame.Screens
 {
@@ -20,6 +21,12 @@ namespace ProjectGame.Screens
         private TiledMapRenderer _mapRenderer;
         private Song _backgroundMusic;
 
+        private Hero hero;
+        public LevelOneScreen()
+        {
+            hero = Hero.getHero();
+        }
+
         public void LoadContent(ContentManager content)
         {
             _tiledMap = content.Load<TiledMap>("Tiled/Levels/Level-1");
@@ -29,13 +36,21 @@ namespace ProjectGame.Screens
             MediaPlayer.IsRepeating = true;
 
             _mapRenderer = new TiledMapRenderer(Game1.StateManager.GraphicsDevice, _tiledMap);
+
+            hero.contentManager = content;
+            hero.LoadAnimations();
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             _mapRenderer.Draw();
+
+            spriteBatch.Begin();
+            hero.Draw(spriteBatch);
+            spriteBatch.End();
         }
         public void Update(float delta)
         {
+            hero.Update(delta);
         }
 
         ///  1. For movement I need to check the keyboard state AND the previous keyboard state

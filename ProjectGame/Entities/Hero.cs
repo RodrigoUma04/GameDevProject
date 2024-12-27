@@ -14,25 +14,38 @@ namespace ProjectGame.Entities
     class Hero
     {
         private static Hero uniqueInstance = new Hero();
+        public ContentManager contentManager { get; set; }
         
-        private CStates state;
+        private CStates currentState;
         private Dictionary<CStates, Texture2D> spritesheets;
         private Dictionary<CStates, int> framecounts;
-
+        private double frameTimer;
+        private double frameInterval; 
         private int frameWidth;
         private int frameHeight;
+        private int currentFrame;
+
+        private Vector2 position;
 
         private Hero() {
-            state = CStates.IDLE;
+            currentState = CStates.IDLE;
+            spritesheets = new Dictionary<CStates, Texture2D>();
+            framecounts = new Dictionary<CStates, int>();
+
+            frameTimer = 0f;
+            frameInterval = 0.2f;
+            currentFrame = 0;
+
+            position = new Vector2(32, 333);
         }
         public static Hero getHero()
         {
             return uniqueInstance;
         }
 
-        public void LoadAnimations(ContentManager content)
+        public void LoadAnimations()
         {
-            spritesheets[CStates.IDLE] = content.Load<Texture2D>("Animations/player-idle");
+            spritesheets[CStates.IDLE] = contentManager.Load<Texture2D>("Animations/player-idle");
 
             framecounts[CStates.IDLE] = 6;
 
@@ -40,9 +53,45 @@ namespace ProjectGame.Entities
             frameWidth = spritesheets[CStates.IDLE].Width / framecounts[CStates.IDLE];
         }
 
+        public void Update(float delta)
+        {
+            // here comes the if structure that supports movement and animations
+            // for testing purposes only going to test the 'else' case AKA player idle
+
+            frameTimer += delta;
+            if(frameTimer >= frameInterval)
+            {
+                currentFrame++;
+                if(currentFrame >= framecounts[currentState])
+                {
+                    currentFrame = 0;
+                }
+
+                frameTimer -= frameInterval; // need to reset else the if will keep being false
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            Rectangle sourceRect = new Rectangle(frameWidth * currentFrame, 0, frameWidth, frameHeight);
+
+            
+            spriteBatch.Draw(spritesheets[currentState], position, sourceRect, Color.White);
+        }
+
+        private void HandleInput()
+        {
+
+        }
+
         public void ChangeState(CStates newState)
         {
-                state = newState;
+            if (currentState != newState)
+            {
+                currentState = newState;
+                currentFrame = 0;
+                frameTimer = 0f;
+            }
         }
     }
 }
