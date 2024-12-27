@@ -27,6 +27,8 @@ namespace ProjectGame.Entities
 
         private Vector2 position;
 
+        private Keys previousKey;
+
         private Hero() {
             currentState = CStates.IDLE;
             spritesheets = new Dictionary<CStates, Texture2D>();
@@ -36,7 +38,7 @@ namespace ProjectGame.Entities
             frameInterval = 0.2f;
             currentFrame = 0;
 
-            position = new Vector2(32, 333);
+            position = new Vector2(32, 334);
         }
         public static Hero getHero()
         {
@@ -46,8 +48,10 @@ namespace ProjectGame.Entities
         public void LoadAnimations()
         {
             spritesheets[CStates.IDLE] = contentManager.Load<Texture2D>("Animations/player-idle");
+            spritesheets[CStates.RUNNING] = contentManager.Load<Texture2D>("Animations/player-run");
 
             framecounts[CStates.IDLE] = 6;
+            framecounts[CStates.RUNNING] = 6;
 
             frameHeight = spritesheets[CStates.IDLE].Height;
             frameWidth = spritesheets[CStates.IDLE].Width / framecounts[CStates.IDLE];
@@ -55,8 +59,7 @@ namespace ProjectGame.Entities
 
         public void Update(float delta)
         {
-            // here comes the if structure that supports movement and animations
-            // for testing purposes only going to test the 'else' case AKA player idle
+            HandleInput();
 
             frameTimer += delta;
             if(frameTimer >= frameInterval)
@@ -67,7 +70,7 @@ namespace ProjectGame.Entities
                     currentFrame = 0;
                 }
 
-                frameTimer -= frameInterval; // need to reset else the if will keep being false
+                frameTimer -= frameInterval;
             }
         }
 
@@ -75,12 +78,34 @@ namespace ProjectGame.Entities
         {
             Rectangle sourceRect = new Rectangle(frameWidth * currentFrame, 0, frameWidth, frameHeight);
 
-            
-            spriteBatch.Draw(spritesheets[currentState], position, sourceRect, Color.White);
+            if (previousKey == Keys.Left)
+            {
+                spriteBatch.Draw(spritesheets[currentState], position, sourceRect, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0);
+            }
+            else
+            {
+                spriteBatch.Draw(spritesheets[currentState], position, sourceRect, Color.White);
+            }
         }
 
         private void HandleInput()
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.Q) || Keyboard.GetState().IsKeyDown(Keys.Left)) {
+                ChangeState(CStates.RUNNING);
+                frameInterval = 0.1f;
+                previousKey = Keys.Left;
+                position.X -= 5;
+            }
+            else if(Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)){
+                ChangeState(CStates.RUNNING);
+                frameInterval = 0.1f;
+                previousKey = Keys.Right;
+                position.X += 5;
+            }
+            else
+            {
+                ChangeState(CStates.IDLE);
+            }
 
         }
 
@@ -91,6 +116,7 @@ namespace ProjectGame.Entities
                 currentState = newState;
                 currentFrame = 0;
                 frameTimer = 0f;
+                frameInterval = 0.2f;
             }
         }
     }

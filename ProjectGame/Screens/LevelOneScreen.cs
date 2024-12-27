@@ -53,15 +53,13 @@ namespace ProjectGame.Screens
             hero.Update(delta);
         }
 
-        ///  1. For movement I need to check the keyboard state AND the previous keyboard state
-        ///     This way I can reverse the sprites so the character looks to the way it's going
-        ///  2. I need to make spawn points for easier spawning of characters --> maybe irrelevant for only hero testing
-        ///  3. I also need to think about the shooting mechanic (different guns, ground loot..., maybe buy mechanic?)
+        /// I need to think about the shooting mechanic (different guns, ground loot..., maybe buy mechanic?)
        
         /// TO-DO
         /// 1. Spawn point
-        /// 2. Idle animation
-        /// 3. Movement, running animations and switching sides
-        /// 4. Make the hero a singleton and provide it with the necessary properties/methods
+        /// 2. Provide the hero with the necessary properties/methods (HP, damage with gun...)
+        /// 3. Camera to follow the player
+        /// 4. Fix gravity for jumping
+        /// 5. Fix collision and walls for map borders
     }
 }

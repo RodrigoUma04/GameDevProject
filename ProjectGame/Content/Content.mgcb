@@ -26,6 +26,18 @@
 /processorParam:TextureFormat=Color
 /build:Animations/player-idle.png
 
+#begin Animations/player-run.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Animations/player-run.png
+
 #begin Background/background.png
 /importer:TextureImporter
 /processor:TextureProcessor
