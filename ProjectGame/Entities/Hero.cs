@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace ProjectGame.Entities
 {
@@ -25,12 +26,13 @@ namespace ProjectGame.Entities
         private int frameHeight;
         private int currentFrame;
 
+        private int velocity = 5;
+
         private Vector2 position;
         public Vector2 Position
         {
             get { return position; }
         }
-
 
         private Keys previousKey;
 
@@ -52,11 +54,13 @@ namespace ProjectGame.Entities
 
         public void LoadAnimations()
         {
-            spritesheets[CStates.IDLE] = contentManager.Load<Texture2D>("Animations/player-idle");
-            spritesheets[CStates.RUNNING] = contentManager.Load<Texture2D>("Animations/player-run");
+            spritesheets[CStates.IDLE] = contentManager.Load<Texture2D>("Animations/Player/player-idle");
+            spritesheets[CStates.RUNNING] = contentManager.Load<Texture2D>("Animations/Player/player-run");
+            spritesheets[CStates.JUMPING] = contentManager.Load<Texture2D>("Animations/Player/player-jump");
 
             framecounts[CStates.IDLE] = 6;
             framecounts[CStates.RUNNING] = 6;
+            framecounts[CStates.JUMPING] = 2;
 
             frameHeight = spritesheets[CStates.IDLE].Height;
             frameWidth = spritesheets[CStates.IDLE].Width / framecounts[CStates.IDLE];
@@ -67,6 +71,7 @@ namespace ProjectGame.Entities
             HandleInput();
 
             frameTimer += delta;
+
             if(frameTimer >= frameInterval)
             {
                 currentFrame++;
@@ -101,7 +106,7 @@ namespace ProjectGame.Entities
                 previousKey = Keys.Left;
 
                 if(position.X > 0)
-                    position.X -= 5;
+                    position.X -= velocity;
             }
             else if(Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)){
                 ChangeState(CStates.RUNNING);
@@ -109,7 +114,14 @@ namespace ProjectGame.Entities
                 previousKey = Keys.Right;
 
                 if(position.X < 3072 - 100)
-                    position.X += 5;
+                    position.X += velocity;
+            }
+            else if(Keyboard.GetState().IsKeyDown(Keys.Z) || Keyboard.GetState().IsKeyDown(Keys.Up))
+            {
+                /// Not yet working properly
+                ChangeState(CStates.JUMPING);
+
+                Debug.WriteLine("Jumping");
             }
             else
             {
