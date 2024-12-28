@@ -99,13 +99,17 @@ namespace ProjectGame.Entities
                 ChangeState(CStates.RUNNING);
                 frameInterval = 0.1f;
                 previousKey = Keys.Left;
-                position.X -= 5;
+
+                if(position.X > 0)
+                    position.X -= 5;
             }
             else if(Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)){
                 ChangeState(CStates.RUNNING);
                 frameInterval = 0.1f;
                 previousKey = Keys.Right;
-                position.X += 5;
+
+                if(position.X < 3072 - 100)
+                    position.X += 5;
             }
             else
             {
