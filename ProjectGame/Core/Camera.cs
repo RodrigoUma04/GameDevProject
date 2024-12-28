@@ -26,23 +26,13 @@ namespace ProjectGame.Core
             float deadzoneLeft = (cameraCenterX - _deadzone / 2) - 100;
             float deadzoneRight = (cameraCenterX + _deadzone / 2) - 100;
 
-            // Debugging information to check if camera is behaving correctly
-            Debug.WriteLine($"Deadzone Left: {deadzoneLeft}, Deadzone Right: {deadzoneRight}");
-            Debug.WriteLine($"Player Position: {playerPosition.X}, Camera Position: {_position.X}");
-
             if (playerPosition.X < deadzoneLeft)
             {
-                Debug.WriteLine("Left of the deadzone.");
                 _position.X -= deadzoneLeft - playerPosition.X;
             }
             else if (playerPosition.X > deadzoneRight)
             {
-                Debug.WriteLine("Right of the deadzone.");
                 _position.X += playerPosition.X - deadzoneRight;
-            }
-            else
-            {
-                Debug.WriteLine("In the deadzone.");
             }
 
             // sets the limit of where the camera can go to
