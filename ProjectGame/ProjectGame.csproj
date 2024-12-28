@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Background\" />
+    <Folder Include="Content\Buttons\Exit\" />
     <Folder Include="Content\Buttons\Start\" />
     <Folder Include="Content\Tiled\Levels\" />
   </ItemGroup>

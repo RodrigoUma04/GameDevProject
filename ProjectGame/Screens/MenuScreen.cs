@@ -33,8 +33,8 @@ namespace ProjectGame.Screens
 
             _buttonFactory = new ButtonFactory(content);
 
-            _buttons.Add(_buttonFactory.CreateButton(ButtonType.StartButton, 0, _screenCenter));
-            _buttons.Add(_buttonFactory.CreateButton(ButtonType.ExitButton, 80, _screenCenter));
+            _buttons.Add(_buttonFactory.CreateButton(ButtonType.StartButton, 20, _screenCenter));
+            _buttons.Add(_buttonFactory.CreateButton(ButtonType.ExitButton, 100, _screenCenter));
         }
 
         public void Draw(SpriteBatch spriteBatch)
