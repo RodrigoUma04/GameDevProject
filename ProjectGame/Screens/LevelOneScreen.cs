@@ -22,6 +22,8 @@ namespace ProjectGame.Screens
         private Song _backgroundMusic;
 
         private Hero hero;
+
+        private Camera camera;
         public LevelOneScreen()
         {
             hero = Hero.getHero();
@@ -36,30 +38,34 @@ namespace ProjectGame.Screens
             MediaPlayer.IsRepeating = true;
 
             _mapRenderer = new TiledMapRenderer(Game1.StateManager.GraphicsDevice, _tiledMap);
+            camera = new Camera(new Vector2(3072, 512));
 
             hero.contentManager = content;
             hero.LoadAnimations();
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            _mapRenderer.Draw();
-
-            spriteBatch.Begin();
-            hero.Draw(spriteBatch);
-            spriteBatch.End();
-        }
+        } 
+        
         public void Update(float delta)
         {
             hero.Update(delta);
+            camera.Update(hero.Position);
         }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            _mapRenderer.Draw(viewMatrix: camera.GetViewMatrix());
+
+            spriteBatch.Begin(transformMatrix: camera.GetViewMatrix());
+            hero.Draw(spriteBatch);
+            spriteBatch.End();
+        }
+       
 
         /// I need to think about the shooting mechanic (different guns, ground loot..., maybe buy mechanic?)
        
         /// TO-DO
         /// 1. Spawn point
         /// 2. Provide the hero with the necessary properties/methods (HP, damage with gun...)
-        /// 3. Camera to follow the player
-        /// 4. Fix gravity for jumping
-        /// 5. Fix collision and walls for map borders
+        /// 3. Fix gravity for jumping
+        /// 4. Fix collision and walls for map borders
     }
 }
