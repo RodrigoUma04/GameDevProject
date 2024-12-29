@@ -44,7 +44,7 @@ namespace ProjectGame.Screens
             hero.contentManager = content;
             hero.LoadAnimations();
 
-            collisionManager = new CollisionManager((TiledMapTileLayer)_tiledMap.GetLayer("collision"));
+            collisionManager = new CollisionManager((TiledMapObjectLayer)_tiledMap.GetLayer("collision"));
             collisionManager.RegisterObject(hero);
         } 
         

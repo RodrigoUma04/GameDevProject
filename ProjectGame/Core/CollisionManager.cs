@@ -5,17 +5,19 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ProjectGame.Core
 {
     class CollisionManager
     {
+        /// Trying to use an object layer instead
         private List<ICollidable> collidables;
-        private TiledMapTileLayer _collisionLayer;
+        private TiledMapObjectLayer _collisionLayer;
         private const int tileWidth = 32;
         private const int tileHeight = 32;
 
-        public CollisionManager(TiledMapTileLayer collisionLayer)
+        public CollisionManager(TiledMapObjectLayer collisionLayer)
         {
             collidables = new List<ICollidable>();
             _collisionLayer = collisionLayer;
@@ -35,40 +37,62 @@ namespace ProjectGame.Core
         {
             foreach(var coll in collidables)
             {
-                /// Check for collision and call the OnCollision method
-                /// 1. Get the bounds of the object
-                /// 2. Get the coordinates of the tile its on
-                /// 3. Check if it collides with tile
-                /// 4. Check if the tile is collidable
-
                 Rectangle bounds = coll.Bounds;
 
-                if (IsCollidingWithTile(bounds))
+                string colliderType = GetColliderType(bounds);
+
+                if (IsCollidingWithObject(bounds))
                 {
-                    coll.OnCollision();
+                    coll.OnCollision(colliderType);
                 }
             }
         }
-
-        public bool IsCollidingWithTile(Rectangle bounds)
+        private bool IsCollidingWithObject(Rectangle bounds)
         {
-            // Gets the bound corners and coverts it tile grid coordinates
-            Point topLeft = new Point(bounds.Left / tileWidth, bounds.Top / tileHeight);
-            Point topRight = new Point(bounds.Right / tileWidth, bounds.Top / tileHeight);
-            Point bottomLeft = new Point(bounds.Left / tileWidth, bounds.Bottom / tileHeight);
-            Point bottomRight = new Point(bounds.Right / tileWidth, bounds.Bottom / tileHeight);
+            foreach (var tiledObject in _collisionLayer.Objects)
+            {
+                Rectangle objectBounds = GetObjectBounds(tiledObject);
 
-            return IsTileCollidable(topLeft) || IsTileCollidable(topRight) ||
-                   IsTileCollidable(bottomLeft) || IsTileCollidable(bottomRight);
+                if (bounds.Intersects(objectBounds))
+                {
+                    if (tiledObject.Properties.TryGetValue("Collidable", out string isCollidable))
+                    {
+                        if (isCollidable == "true")
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
 
-        // Checks if tile has the collidable property set to true
-        public bool IsTileCollidable(Point tilePosition)
+        private string GetColliderType(Rectangle bounds)
         {
-            var tile = _collisionLayer.GetTile((ushort)tilePosition.X, (ushort)tilePosition.Y);
+            foreach(var tiledObject in _collisionLayer.Objects)
+            {
+                Rectangle objectBounds = GetObjectBounds(tiledObject);
 
-            /// TODO: fix the property check
-            return true;
+                if (bounds.Intersects(objectBounds))
+                {
+                    if (tiledObject.Properties.TryGetValue("Type", out string type))
+                    {
+                        return type;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private Rectangle GetObjectBounds(TiledMapObject tiledObject)
+        {
+            return  new Rectangle(
+                    (int)tiledObject.Position.X,
+                    (int)tiledObject.Position.Y,
+                    (int)tiledObject.Size.Width,
+                    (int)tiledObject.Size.Height
+                );
         }
     }
 }

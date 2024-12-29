@@ -148,9 +148,20 @@ namespace ProjectGame.Entities
             }
         }
 
-        public void OnCollision()
+        public void OnCollision(string colliderType)
         {
-            Debug.WriteLine("Colliding");
+            switch (colliderType)
+            {
+                case "Ground":
+                    Debug.WriteLine("Standing on the ground");
+                    break;
+                case "Wall":
+                    Debug.WriteLine("Walking against a wall");
+                    break;
+                default:
+                    Debug.WriteLine($"Unkown collider type: {colliderType}");
+                    break;
+            }
         }
     }
 }

@@ -10,6 +10,6 @@ namespace ProjectGame.Core
     interface ICollidable
     {
         Rectangle Bounds { get; set; }
-        void OnCollision();
+        void OnCollision(string colliderType);
     }
 }
