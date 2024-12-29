@@ -24,6 +24,7 @@ namespace ProjectGame.Screens
         private Hero hero;
 
         private Camera camera;
+        private CollisionManager collisionManager;
         public LevelOneScreen()
         {
             hero = Hero.getHero();
@@ -42,12 +43,16 @@ namespace ProjectGame.Screens
 
             hero.contentManager = content;
             hero.LoadAnimations();
+
+            collisionManager = new CollisionManager((TiledMapTileLayer)_tiledMap.GetLayer("collision"));
+            collisionManager.RegisterObject(hero);
         } 
         
         public void Update(float delta)
         {
             hero.Update(delta);
             camera.Update(hero.Position);
+            collisionManager.Update();
         }
 
         public void Draw(SpriteBatch spriteBatch)

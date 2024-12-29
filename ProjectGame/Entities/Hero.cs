@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using ProjectGame.Core;
 
 namespace ProjectGame.Entities
 {
     enum CStates { IDLE, RUNNING, JUMPING, SHOOTING, SLIDE, RUNSHOOTING, DUCK, HURT}
-    class Hero
+    class Hero : ICollidable
     {
         private static Hero uniqueInstance = new Hero();
         public ContentManager contentManager { get; set; }
@@ -33,6 +31,8 @@ namespace ProjectGame.Entities
         {
             get { return position; }
         }
+
+        public Rectangle Bounds { get; set; }
 
         private Keys previousKey;
 
@@ -68,6 +68,7 @@ namespace ProjectGame.Entities
 
         public void Update(float delta)
         {
+            Bounds = new Rectangle((int)Position.X, (int)Position.Y, frameWidth, frameHeight);
             HandleInput();
 
             frameTimer += delta;
@@ -118,10 +119,16 @@ namespace ProjectGame.Entities
             }
             else if(Keyboard.GetState().IsKeyDown(Keys.Z) || Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                /// Not yet working properly
+                /// TODO: 
+                /// 1. fix jumping + gravity
+                /// 2. Fix animation
+                /// 3. Fix mid-air movement
+                
                 ChangeState(CStates.JUMPING);
-
-                Debug.WriteLine("Jumping");
+            }
+            else if(Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down))
+            {
+                /// TODO: ducking
             }
             else
             {
@@ -139,6 +146,11 @@ namespace ProjectGame.Entities
                 frameTimer = 0f;
                 frameInterval = 0.2f;
             }
+        }
+
+        public void OnCollision()
+        {
+            Debug.WriteLine("Colliding");
         }
     }
 }
