@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
@@ -8,113 +7,65 @@ using System.Diagnostics;
 
 namespace ProjectGame.Entities
 {
-    enum CStates { IDLE, RUNNING, JUMPING, SHOOTING, SLIDE, RUNSHOOTING, DUCK, HURT}
-    class Hero : ICollidable
+    class Hero : Entity, ICollidable
     {
         private static Hero uniqueInstance = new Hero();
-        public ContentManager contentManager { get; set; }
-        
-        private CStates currentState;
-        private Dictionary<CStates, Texture2D> spritesheets;
-        private Dictionary<CStates, int> framecounts;
-        private double frameTimer;
-        private double frameInterval; 
-        private int frameWidth;
-        private int frameHeight;
-        private int currentFrame;
-
-        private int velocity = 5;
-
-        private Vector2 position;
-        public Vector2 Position
-        {
-            get { return position; }
-        }
 
         public Rectangle Bounds { get; set; }
 
-        private Keys previousKey;
-
         private Hero() {
-            currentState = CStates.IDLE;
-            spritesheets = new Dictionary<CStates, Texture2D>();
-            framecounts = new Dictionary<CStates, int>();
+            CurrentState = CStates.IDLE;
+            Spritesheets = new Dictionary<CStates, Texture2D>();
+            Framecounts = new Dictionary<CStates, int>();
 
-            frameTimer = 0f;
-            frameInterval = 0.2f;
-            currentFrame = 0;
+            FrameTimer = 0f;
+            FrameInterval = 0.2f;
+            CurrentFrame = 0;
 
-            position = new Vector2(32, 334);
+            Position = new Vector2(32, 334);
+            Velocity = 5;
         }
-        public static Hero getHero()
+        public static Hero GetHero()
         {
             return uniqueInstance;
         }
-
-        public void LoadAnimations()
+        public override void LoadContent(ContentManager content)
         {
-            spritesheets[CStates.IDLE] = contentManager.Load<Texture2D>("Animations/Player/player-idle");
-            spritesheets[CStates.RUNNING] = contentManager.Load<Texture2D>("Animations/Player/player-run");
-            spritesheets[CStates.JUMPING] = contentManager.Load<Texture2D>("Animations/Player/player-jump");
+            Spritesheets[CStates.IDLE] = content.Load<Texture2D>("Animations/Player/player-idle");
+            Spritesheets[CStates.RUNNING] = content.Load<Texture2D>("Animations/Player/player-run");
+            Spritesheets[CStates.JUMPING] = content.Load<Texture2D>("Animations/Player/player-jump");
 
-            framecounts[CStates.IDLE] = 6;
-            framecounts[CStates.RUNNING] = 6;
-            framecounts[CStates.JUMPING] = 2;
+            Framecounts[CStates.IDLE] = 6;
+            Framecounts[CStates.RUNNING] = 6;
+            Framecounts[CStates.JUMPING] = 2;
 
-            frameHeight = spritesheets[CStates.IDLE].Height;
-            frameWidth = spritesheets[CStates.IDLE].Width / framecounts[CStates.IDLE];
+            FrameHeight = Spritesheets[CStates.IDLE].Height;
+            FrameWidth = Spritesheets[CStates.IDLE].Width / Framecounts[CStates.IDLE];
         }
-
-        public void Update(float delta)
+        public override void Update(float delta)
         {
-            Bounds = new Rectangle((int)Position.X, (int)Position.Y, frameWidth, frameHeight);
+            Bounds = new Rectangle((int)Position.X, (int)Position.Y, FrameWidth, FrameHeight);
             HandleInput();
-
-            frameTimer += delta;
-
-            if(frameTimer >= frameInterval)
-            {
-                currentFrame++;
-                if(currentFrame >= framecounts[currentState])
-                {
-                    currentFrame = 0;
-                }
-
-                frameTimer -= frameInterval;
-            }
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            Rectangle sourceRect = new Rectangle(frameWidth * currentFrame, 0, frameWidth, frameHeight);
-
-            if (previousKey == Keys.Left)
-            {
-                spriteBatch.Draw(spritesheets[currentState], position, sourceRect, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0);
-            }
-            else
-            {
-                spriteBatch.Draw(spritesheets[currentState], position, sourceRect, Color.White);
-            }
+            base.Update(delta);
         }
 
         private void HandleInput()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Q) || Keyboard.GetState().IsKeyDown(Keys.Left)) {
                 ChangeState(CStates.RUNNING);
-                frameInterval = 0.1f;
-                previousKey = Keys.Left;
+                FrameInterval = 0.1f;
+                Direction = Direction.LEFT;
 
                 if(position.X > 0)
-                    position.X -= velocity;
+                    position.X -= Velocity;
             }
             else if(Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)){
                 ChangeState(CStates.RUNNING);
-                frameInterval = 0.1f;
-                previousKey = Keys.Right;
+                FrameInterval = 0.1f;
+                Direction = Direction.RIGHT;
 
                 if(position.X < 3072 - 100)
-                    position.X += velocity;
+                    position.X += Velocity;
             }
             else if(Keyboard.GetState().IsKeyDown(Keys.Z) || Keyboard.GetState().IsKeyDown(Keys.Up))
             {
@@ -134,17 +85,6 @@ namespace ProjectGame.Entities
                 ChangeState(CStates.IDLE);
             }
 
-        }
-
-        public void ChangeState(CStates newState)
-        {
-            if (currentState != newState)
-            {
-                currentState = newState;
-                currentFrame = 0;
-                frameTimer = 0f;
-                frameInterval = 0.2f;
-            }
         }
 
         public void OnCollision(string colliderType)

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using ProjectGame.Core;
+using ProjectGame.States;
 
 namespace ProjectGame.Components.Buttons
 {

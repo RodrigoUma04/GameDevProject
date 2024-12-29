@@ -5,11 +5,6 @@ using Microsoft.Xna.Framework;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using ProjectGame.Core;
-using System;
-using System.Diagnostics;
-using System.Linq;
-using MonoGame.Extended.Collisions.Layers;
-using MonoGame.Extended;
 using ProjectGame.Entities;
 using ProjectGame.States;
 
@@ -28,7 +23,7 @@ namespace ProjectGame.Screens
         private CollisionManager collisionManager;
         public LevelOneScreen()
         {
-            hero = Hero.getHero();
+            hero = Hero.GetHero();
         }
 
         public void LoadContent(ContentManager content)
@@ -42,8 +37,7 @@ namespace ProjectGame.Screens
             _mapRenderer = new TiledMapRenderer(Game1.StateManager.GraphicsDevice, _tiledMap);
             camera = new Camera(new Vector2(3072, 512));
 
-            hero.contentManager = content;
-            hero.LoadAnimations();
+            hero.LoadContent(content);
 
             collisionManager = new CollisionManager((TiledMapObjectLayer)_tiledMap.GetLayer("collision"));
             collisionManager.RegisterObject(hero);
