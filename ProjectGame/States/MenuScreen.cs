@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using ProjectGame.Components;
-using ProjectGame.Core;
 using ProjectGame.Factories;
+using ProjectGame.States;
 using System.Collections.Generic;
 
 namespace ProjectGame.Screens

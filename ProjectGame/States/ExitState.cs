@@ -1,12 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using ProjectGame.Core;
 
-namespace ProjectGame.Screens
-
-// not yet implemented (for testing purposes)
+namespace ProjectGame.States
 {
-    class GameOverScreen : IGameState
+    public class ExitState : IGameState
     {
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -19,5 +16,7 @@ namespace ProjectGame.Screens
         public void Update(float delta)
         {
         }
+
+        // this could probably be done in a more logical easier way, but this is temporary, since I have other priorities
     }
 }

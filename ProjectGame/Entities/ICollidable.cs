@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectGame.Core
+namespace ProjectGame.Entities
 {
     interface ICollidable
     {
