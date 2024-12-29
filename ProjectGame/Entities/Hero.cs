@@ -10,18 +10,8 @@ namespace ProjectGame.Entities
     class Hero : Entity, ICollidable
     {
         private static Hero uniqueInstance = new Hero();
-
         public Rectangle Bounds { get; set; }
-
-        private Hero() {
-            CurrentState = CStates.IDLE;
-            Spritesheets = new Dictionary<CStates, Texture2D>();
-            Framecounts = new Dictionary<CStates, int>();
-
-            FrameTimer = 0f;
-            FrameInterval = 0.2f;
-            CurrentFrame = 0;
-
+        public Hero() {
             Position = new Vector2(32, 334);
             Velocity = 5;
         }
@@ -45,11 +35,11 @@ namespace ProjectGame.Entities
         public override void Update(float delta)
         {
             Bounds = new Rectangle((int)Position.X, (int)Position.Y, FrameWidth, FrameHeight);
-            HandleInput();
+            HandleMovement();
             base.Update(delta);
         }
 
-        private void HandleInput()
+        public override void HandleMovement()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Q) || Keyboard.GetState().IsKeyDown(Keys.Left)) {
                 ChangeState(CStates.RUNNING);

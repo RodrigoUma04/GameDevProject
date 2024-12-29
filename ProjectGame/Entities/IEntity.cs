@@ -21,5 +21,6 @@ namespace ProjectGame.Entities
         void Update(float delta);
         void Draw(SpriteBatch spriteBatch);
         void ChangeState(CStates newState);
+        // void HandleMovement(); doesn't work because need to be public, but I don't want that
     }
 }

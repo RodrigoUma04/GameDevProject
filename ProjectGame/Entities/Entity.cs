@@ -5,11 +5,10 @@ using System.Collections.Generic;
 
 namespace ProjectGame.Entities
 {
-    enum Direction { LEFT,RIGHT}
+    enum Direction { LEFT, RIGHT}
     enum CStates { IDLE, RUNNING, JUMPING, SHOOTING, SLIDE, RUNSHOOTING, DUCK, HURT }
     abstract class Entity : IEntity
     {
-
         // Player stats
         public int Velocity { get; set; }
 
@@ -26,6 +25,19 @@ namespace ProjectGame.Entities
         public int FrameWidth { get; set; }
         public int FrameHeight { get; set; }
         public int CurrentFrame { get; set; }
+
+        public Entity()
+        {
+            CurrentState = CStates.IDLE;
+            Spritesheets = new Dictionary<CStates, Texture2D>();
+            Framecounts = new Dictionary<CStates, int>();
+
+            FrameTimer = 0f;
+            FrameInterval = 0.2f;
+            CurrentFrame = 0;
+
+            // Add position and velocity for every entity apart
+        }
 
         // making it abstract for the moment to be able to implement the needed animations per entity
         public abstract void LoadContent(ContentManager content);
@@ -66,6 +78,11 @@ namespace ProjectGame.Entities
                 FrameTimer = 0f;
                 FrameInterval = 0.2f;
             }
+        }
+
+        public virtual void HandleMovement()
+        {
+            // add AI movement in here I guess?
         }
     }
 }
