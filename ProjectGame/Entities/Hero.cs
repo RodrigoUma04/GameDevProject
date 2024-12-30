@@ -12,7 +12,7 @@ namespace ProjectGame.Entities
         private static Hero uniqueInstance = new Hero();
         public Hero() {
             Velocity = 5;
-            JumpStrength = -12f;
+            JumpStrength = -13.5f;
         }
         public static Hero GetHero()
         {
