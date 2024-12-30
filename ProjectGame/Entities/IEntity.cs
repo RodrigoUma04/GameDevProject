@@ -10,6 +10,10 @@ namespace ProjectGame.Entities
         public int Velocity { get; set; }
         public Vector2 Position { get; set; }
         CStates CurrentState { get; set; }
+        public float VerticalVelocity { get; set; }
+        public float Gravity { get; set; }
+        public float JumpStrength { get; set; }
+        public bool IsGrounded { get; set; }
         public Dictionary<CStates, Texture2D> Spritesheets { get; set; }
         public Dictionary<CStates, int> Framecounts { get; set; }
         public float FrameTimer { get; set; }

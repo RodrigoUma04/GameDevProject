@@ -2,10 +2,11 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace ProjectGame.Entities
 {
-    enum Direction { LEFT, RIGHT}
+    enum Direction { LEFT, RIGHT }
     enum CStates { IDLE, RUNNING, JUMPING, SHOOTING, SLIDE, RUNSHOOTING, DUCK, HURT }
     abstract class Entity : IEntity
     {
@@ -16,6 +17,10 @@ namespace ProjectGame.Entities
         public Vector2 Position { get => position; set => position = value; }
         public CStates CurrentState { get; set; }
         public Direction Direction { get; set; }
+        public float VerticalVelocity { get; set; }
+        public float Gravity { get; set; }
+        public float JumpStrength { get; set; }
+        public bool IsGrounded { get; set; }
 
         // Needed for animations
         public Dictionary<CStates, Texture2D> Spritesheets { get; set; }
@@ -36,7 +41,11 @@ namespace ProjectGame.Entities
             FrameInterval = 0.2f;
             CurrentFrame = 0;
 
-            // Add position and velocity for every entity apart
+            VerticalVelocity = 0;
+            Gravity = 0.5f;
+            IsGrounded = false;
+
+            // Add position, velocity and jumpStrength for every entity apart
         }
 
         // making it abstract for the moment to be able to implement the needed animations per entity
@@ -44,8 +53,8 @@ namespace ProjectGame.Entities
         public virtual void Update(float delta)
         {
             FrameTimer += delta;
-
-            if(FrameTimer >= FrameInterval)
+            
+            if(FrameTimer >= FrameInterval && IsGrounded)
             {
                 CurrentFrame++;
                 if(CurrentFrame >= Framecounts[CurrentState])
@@ -54,6 +63,21 @@ namespace ProjectGame.Entities
                 }
 
                 FrameTimer -= FrameInterval;
+            }
+
+            if (!IsGrounded)
+            {
+                VerticalVelocity += Gravity;
+                Position = new Vector2(Position.X, Position.Y + VerticalVelocity);
+
+                if (VerticalVelocity < 0) // When going up
+                {
+                    CurrentFrame = 0;
+                }
+                else if (VerticalVelocity > 0) // When going down
+                {
+                    CurrentFrame = 1;
+                }
             }
         }
         public virtual void Draw(SpriteBatch spriteBatch)

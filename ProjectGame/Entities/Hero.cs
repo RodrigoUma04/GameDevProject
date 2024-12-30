@@ -14,6 +14,7 @@ namespace ProjectGame.Entities
         public Hero() {
             Position = new Vector2(32, 334);
             Velocity = 5;
+            JumpStrength = -12f;
         }
         public static Hero GetHero()
         {
@@ -36,35 +37,39 @@ namespace ProjectGame.Entities
         {
             Bounds = new Rectangle((int)Position.X, (int)Position.Y, FrameWidth, FrameHeight);
             HandleMovement();
+
             base.Update(delta);
         }
 
         public override void HandleMovement()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Q) || Keyboard.GetState().IsKeyDown(Keys.Left)) {
-                ChangeState(CStates.RUNNING);
-                FrameInterval = 0.1f;
+                if (IsGrounded)
+                {
+                    ChangeState(CStates.RUNNING);
+                    FrameInterval = 0.1f;
+                }
                 Direction = Direction.LEFT;
 
                 if(position.X > 0)
                     position.X -= Velocity;
             }
             else if(Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)){
-                ChangeState(CStates.RUNNING);
-                FrameInterval = 0.1f;
+                if (IsGrounded)
+                {
+                    ChangeState(CStates.RUNNING);
+                    FrameInterval = 0.1f;
+                }
                 Direction = Direction.RIGHT;
 
                 if(position.X < 3072 - 100)
                     position.X += Velocity;
             }
-            else if(Keyboard.GetState().IsKeyDown(Keys.Z) || Keyboard.GetState().IsKeyDown(Keys.Up))
+            else if(IsGrounded && (Keyboard.GetState().IsKeyDown(Keys.Z) || Keyboard.GetState().IsKeyDown(Keys.Up)))
             {
-                /// TODO: 
-                /// 1. fix jumping + gravity
-                /// 2. Fix animation
-                /// 3. Fix mid-air movement
-                
                 ChangeState(CStates.JUMPING);
+                VerticalVelocity = JumpStrength;
+                IsGrounded = false;
             }
             else if(Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down))
             {
@@ -72,7 +77,8 @@ namespace ProjectGame.Entities
             }
             else
             {
-                ChangeState(CStates.IDLE);
+                if(IsGrounded)
+                    ChangeState(CStates.IDLE);
             }
 
         }
@@ -82,6 +88,12 @@ namespace ProjectGame.Entities
             switch (colliderType)
             {
                 case "Ground":
+                    if (VerticalVelocity > 0) // Only stop falling if moving downward
+                    {
+                        VerticalVelocity = 0;
+                        IsGrounded = true;
+                        Position = new Vector2(Position.X, 334);
+                    }
                     Debug.WriteLine("Standing on the ground");
                     break;
                 case "Wall":
