@@ -36,6 +36,16 @@ namespace ProjectGame.Screens
             _mapRenderer = new TiledMapRenderer(Game1.StateManager.GraphicsDevice, _tiledMap);
             camera = new Camera(new Vector2(3072, 512));
 
+            TiledMapObjectLayer spawns = (TiledMapObjectLayer)_tiledMap.GetLayer("spawns");
+            foreach (var tiledObject in spawns.Objects)
+            {
+                if(tiledObject.Properties.TryGetValue("Entity", out string entity)){
+                    if(entity == "Player")
+                    {
+                        hero.Position = tiledObject.Position;
+                    }   
+                }
+            }
             hero.LoadContent(content);
 
             collisionManager = new CollisionManager((TiledMapObjectLayer)_tiledMap.GetLayer("collision"));

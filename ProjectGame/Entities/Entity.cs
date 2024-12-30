@@ -38,10 +38,10 @@ namespace ProjectGame.Entities
             CurrentState = CStates.IDLE;
             Spritesheets = new Dictionary<CStates, Texture2D>();
             Framecounts = new Dictionary<CStates, int>();
-
             FrameTimer = 0f;
             FrameInterval = 0.2f;
             CurrentFrame = 0;
+            Direction = Direction.RIGHT;
 
             VerticalVelocity = 0;
             Gravity = 0.5f;

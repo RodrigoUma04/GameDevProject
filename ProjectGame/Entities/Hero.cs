@@ -11,7 +11,6 @@ namespace ProjectGame.Entities
     {
         private static Hero uniqueInstance = new Hero();
         public Hero() {
-            Position = new Vector2(32, 334);
             Velocity = 5;
             JumpStrength = -12f;
         }
