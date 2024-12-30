@@ -10,7 +10,6 @@ using ProjectGame.States;
 
 namespace ProjectGame.Screens
 {
-    // not yet implemented (for testing purposes)
     class LevelOneScreen : IGameState
     {
         private TiledMap _tiledMap;
@@ -65,7 +64,6 @@ namespace ProjectGame.Screens
         /// TO-DO
         /// 1. Spawn point
         /// 2. Provide the hero with the necessary properties/methods (HP, damage with gun...)
-        /// 3. Fix gravity for jumping
-        /// 4. Fix collision and walls for map borders
+        /// 3. Fix collision with walls
     }
 }

@@ -2,13 +2,14 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace ProjectGame.Entities
 {
     enum Direction { LEFT, RIGHT }
     enum CStates { IDLE, RUNNING, JUMPING, SHOOTING, SLIDE, RUNSHOOTING, DUCK, HURT }
-    abstract class Entity : IEntity
+    abstract class Entity : IEntity, ICollidable
     {
         // Player stats
         public int Velocity { get; set; }
@@ -21,6 +22,7 @@ namespace ProjectGame.Entities
         public float Gravity { get; set; }
         public float JumpStrength { get; set; }
         public bool IsGrounded { get; set; }
+        public Rectangle Bounds { get; set; }
 
         // Needed for animations
         public Dictionary<CStates, Texture2D> Spritesheets { get; set; }
@@ -52,6 +54,8 @@ namespace ProjectGame.Entities
         public abstract void LoadContent(ContentManager content);
         public virtual void Update(float delta)
         {
+            Bounds = new Rectangle((int)Position.X, (int)Position.Y, FrameWidth, FrameHeight);
+
             FrameTimer += delta;
             
             if(FrameTimer >= FrameInterval && IsGrounded)
@@ -107,6 +111,28 @@ namespace ProjectGame.Entities
         public virtual void HandleMovement()
         {
             // add AI movement in here I guess?
+        }
+
+        public void OnCollision(string colliderType)
+        {
+            switch (colliderType)
+            {
+                case "Ground":
+                    if (VerticalVelocity > 0) // Only stop falling if moving downward
+                    {
+                        VerticalVelocity = 0;
+                        IsGrounded = true;
+                        Position = new Vector2(Position.X, 334);
+                    }
+                    Debug.WriteLine("Standing on the ground");
+                    break;
+                case "Wall":
+                    Debug.WriteLine("Walking against a wall");
+                    break;
+                default:
+                    Debug.WriteLine($"Unkown collider type: {colliderType}");
+                    break;
+            }
         }
     }
 }

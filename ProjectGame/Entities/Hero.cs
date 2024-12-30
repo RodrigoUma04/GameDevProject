@@ -10,7 +10,6 @@ namespace ProjectGame.Entities
     class Hero : Entity, ICollidable
     {
         private static Hero uniqueInstance = new Hero();
-        public Rectangle Bounds { get; set; }
         public Hero() {
             Position = new Vector2(32, 334);
             Velocity = 5;
@@ -35,7 +34,6 @@ namespace ProjectGame.Entities
         }
         public override void Update(float delta)
         {
-            Bounds = new Rectangle((int)Position.X, (int)Position.Y, FrameWidth, FrameHeight);
             HandleMovement();
 
             base.Update(delta);
@@ -79,29 +77,6 @@ namespace ProjectGame.Entities
             {
                 if(IsGrounded)
                     ChangeState(CStates.IDLE);
-            }
-
-        }
-
-        public void OnCollision(string colliderType)
-        {
-            switch (colliderType)
-            {
-                case "Ground":
-                    if (VerticalVelocity > 0) // Only stop falling if moving downward
-                    {
-                        VerticalVelocity = 0;
-                        IsGrounded = true;
-                        Position = new Vector2(Position.X, 334);
-                    }
-                    Debug.WriteLine("Standing on the ground");
-                    break;
-                case "Wall":
-                    Debug.WriteLine("Walking against a wall");
-                    break;
-                default:
-                    Debug.WriteLine($"Unkown collider type: {colliderType}");
-                    break;
             }
         }
     }

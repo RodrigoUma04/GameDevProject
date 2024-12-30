@@ -12,7 +12,6 @@ namespace ProjectGame.Core
 {
     class CollisionManager
     {
-        /// Trying to use an object layer instead
         private List<ICollidable> collidables;
         private TiledMapObjectLayer _collisionLayer;
         private const int tileWidth = 32;
